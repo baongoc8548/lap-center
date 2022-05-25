@@ -1,5 +1,6 @@
 import React from "react";
-import './styles.scss'
+import "./styles.scss";
+import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <div className="d-flex justify-content-between navbar-container">
@@ -8,10 +9,17 @@ export default function Navbar() {
       </div>
       <div className="mainMenu">
         <ul className="d-flex">
-          <li>TRANG CHỦ</li>
-          <li>GIỚI THIỆU</li>
+          <li>
+            <Link to="/">TRANG CHỦ</Link> |{" "}
+          </li>
+
+          <li>
+            <Link to="about">GIỚI THIỆU</Link>
+          </li>
           <li>LIÊN HỆ</li>
-          <li>ĐĂNG NHẬP</li>
+          <li>
+            <Link to="login">ĐĂNG NHẬP</Link>
+          </li>
         </ul>
       </div>
     </div>
