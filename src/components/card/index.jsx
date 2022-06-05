@@ -6,12 +6,12 @@ export default function Card({product}) {
   return (
     <div className="card-product pt-2 my-4 mx-2 ml-2">
       
-          <img className="img" src={product.image} alt="p1" />
+          <img className="img" src={product.images[0]} alt="p1" />
       
       <div className="info-product">
           <h5>{product.name}</h5>
           <p>Hãng: {product.brand}</p>
-          <p>Chip: {product.chip}</p>
+          <p>Chip: {product.cpu}</p>
           <p>Gía: {product.price}</p>
       </div>
       <div className="btn-view">
