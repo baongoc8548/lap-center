@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Col, Row, Button, InputGroup } from "react-bootstrap";
 import Navbar from "../../components/navbar";
 import "./style.scss";
@@ -8,11 +8,11 @@ export default function Register() {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
+ 
   const handleChange = (val, field) => {
     if (field === "username") {
       setUsername(val);
-    }
-    else if (field === "password") {
+    } else if (field === "password") {
       setPassword(val);
     } else {
       setConfirmPassword(val);
@@ -79,7 +79,9 @@ export default function Register() {
                 type="password"
                 placeholder="Nhập lại Password"
                 value={confirmPassword}
-                onChange={(e) => handleChange(e.target.value, "confirmPassword")}
+                onChange={(e) =>
+                  handleChange(e.target.value, "confirmPassword")
+                }
               />
             </Col>
           </Form.Group>

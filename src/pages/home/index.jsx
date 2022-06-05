@@ -1,16 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../../components/navbar";
 import Card from "../../components/card";
 import { data } from "../../data";
 import { Form, Button } from "react-bootstrap";
 import "./styles.scss";
-
+import axios from "axios";
 
 export default function Home() {
   const [list, setList] = useState(data);
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("");
   const [price, setPrice] = useState();
+  useEffect(() => {
+    console.log("Ham nay chay dau tien");
+    //fetchAPI();
+    fetchAxios();
+  }, []);
+  const fetchAPI = () => {
+    fetch("https://reqres.in/api/users/")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  };
+  const fetchAxios = () => {
+    axios
+      .get("https://lap-center.herokuapp.com/api/product")
+      .then(function (response) {
+        // handle success
+        console.log("SUCCESS: ", response.data);
+        setList(response.data.products)
+      })
+      .catch(function (error) {
+        // handle error
+        console.log("ERROR: ", error);
+      })
+      .then(function () {
+        // always executed
+      });
+  };
   const handleChange = (val) => {
     console.log("val: ", val);
     setSearch(val);
@@ -28,7 +59,7 @@ export default function Home() {
     );
   };
   const handleSelectChange = (e) => {
-    const val=e.target.value
+    const val = e.target.value;
     setBrand(val);
     setList(
       data.filter((item) =>
@@ -38,15 +69,14 @@ export default function Home() {
     console.log(e.target.value);
   };
   const sortPrice = (e) => {
-    const val=e.target.value
+    const val = e.target.value;
     setPrice(val);
-    
-if(val==="1"){
-  setList(data.sort((a,b)=>a.price-b.price))
-}else{
-  setList(data.sort((a,b)=>b.price-a.price))
-}
-    
+
+    if (val === "1") {
+      setList(data.sort((a, b) => a.price - b.price));
+    } else {
+      setList(data.sort((a, b) => b.price - a.price));
+    }
   };
   return (
     <div className="homeContainer">
