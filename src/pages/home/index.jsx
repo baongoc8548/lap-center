@@ -7,14 +7,14 @@ import "./styles.scss";
 import axios from "axios";
 
 export default function Home() {
-  const [list, setList] = useState(data);
+  const [list, setList] = useState([]);
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("");
   const [price, setPrice] = useState();
   useEffect(() => {
     console.log("Ham nay chay dau tien");
     //fetchAPI();
-    fetchAxios();
+    //fetchAxios();
   }, []);
   const fetchAPI = () => {
     fetch("https://reqres.in/api/users/")
@@ -32,7 +32,7 @@ export default function Home() {
       .then(function (response) {
         // handle success
         console.log("SUCCESS: ", response.data);
-        setList(response.data.products)
+        setList(response.data.products);
       })
       .catch(function (error) {
         // handle error
@@ -43,40 +43,131 @@ export default function Home() {
       });
   };
   const handleChange = (val) => {
-    console.log("val: ", val);
+    //console.log("val: ", val);
     setSearch(val);
-    setList(
-      data.filter((item) =>
-        item?.name?.toLowerCase()?.includes(val.toLowerCase())
-      )
-    );
+
+    // setList(
+    //   data.filter((item) =>
+    //     item?.name?.toLowerCase()?.includes(val.toLowerCase())
+    //   )
+    // );
   };
   const onSubmitSearch = () => {
-    setList(
-      data.filter((item) =>
-        item?.name?.toLowerCase()?.includes(search.toLowerCase())
-      )
-    );
+    // setList(
+    //   data.filter((item) =>
+    //     item?.name?.toLowerCase()?.includes(search.toLowerCase())
+    //   )
+    // );
+    // axios
+    //   .get("https://lap-center.herokuapp.com/api/product",{
+    //     params: {
+    //       productName: search,
+    //       productBrand:brand,
+    //       orderByColumn:'price',
+    //       orderByDirection:price
+    //     }
+    //   })
+    //   .then(function (response) {
+    //     // handle success
+    //     console.log("SUCCESS: ", response.data);
+    //     setList(response.data.products)
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log("ERROR: ", error);
+    //   })
+    //   .then(function () {
+    //     // always executed
+    //   });
+    handleCallAPI(search, brand, price);
   };
   const handleSelectChange = (e) => {
     const val = e.target.value;
     setBrand(val);
-    setList(
-      data.filter((item) =>
-        item?.brand?.toLowerCase()?.includes(val.toLowerCase())
-      )
-    );
-    console.log(e.target.value);
+    // setList(
+    //   data.filter((item) =>
+    //     item?.brand?.toLowerCase()?.includes(val.toLowerCase())
+    //   )
+    // );
+    // console.log(e.target.value);
+    // axios
+    //   .get("https://lap-center.herokuapp.com/api/product",{
+    //     params: {
+    //       productName: search,
+    //       productBrand:val,
+    //       orderByColumn:'price',
+    //       orderByDirection:price
+    //     }
+    //   })
+    //   .then(function (response) {
+    //     // handle success
+    //     console.log("SUCCESS: ", response.data);
+    //     setList(response.data.products)
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log("ERROR: ", error);
+    //   })
+    //   .then(function () {
+    //     // always executed
+    //   });
+    handleCallAPI(search, val, price);
   };
   const sortPrice = (e) => {
     const val = e.target.value;
-    setPrice(val);
+    // setPrice(val);
 
-    if (val === "1") {
-      setList(data.sort((a, b) => a.price - b.price));
-    } else {
-      setList(data.sort((a, b) => b.price - a.price));
-    }
+    // if (val === "1") {
+    //   setList(data.sort((a, b) => a.price - b.price));
+    // } else {
+    //   setList(data.sort((a, b) => b.price - a.price));
+    // }
+    setPrice(val);
+    // axios
+    //   .get("https://lap-center.herokuapp.com/api/product",{
+    //     params: {
+    //       productName: search,
+    //       productBrand:brand,
+    //       orderByColumn:'price',
+    //       orderByDirection:val
+    //     }
+    //   })
+    //   .then(function (response) {
+    //     // handle success
+    //     console.log("SUCCESS: ", response.data);
+    //     setList(response.data.products)
+    //   })
+    //   .catch(function (error) {
+    //     // handle error
+    //     console.log("ERROR: ", error);
+    //   })
+    //   .then(function () {
+    //     // always executed
+    //   });
+    handleCallAPI(search, brand, val);
+  };
+  const handleCallAPI = (productName, productBrand, priceSort) => {
+    axios
+      .get("https://lap-center.herokuapp.com/api/product", {
+        params: {
+          productName: productName,
+          productBrand: productBrand,
+          orderByColumn: "price",
+          orderByDirection: priceSort,
+        },
+      })
+      .then(function (response) {
+        // handle success
+        console.log("SUCCESS: ", response.data);
+        setList(response.data.products);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log("ERROR: ", error);
+      })
+      .then(function () {
+        // always executed
+      });
   };
   return (
     <div className="homeContainer">
@@ -117,8 +208,8 @@ export default function Home() {
             <p>Giá</p>
             <select className="selectBox" value={price} onChange={sortPrice}>
               <option selected value=""></option>
-              <option value="1">Từ thấp đến cao</option>
-              <option value="2">Từ cao đến thấp</option>
+              <option value="asc">Từ thấp đến cao</option>
+              <option value="desc">Từ cao đến thấp</option>
             </select>
           </div>
         </div>
