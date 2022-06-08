@@ -2,7 +2,6 @@ import React from "react";
 import { Button } from 'react-bootstrap';
 import './styles.scss'
 export default function Card({product}) {
-  console.log("product: ",product);
   return (
     <div className="card-product pt-2 my-4 mx-2 ml-2">
       
