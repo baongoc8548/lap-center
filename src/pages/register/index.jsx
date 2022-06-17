@@ -3,27 +3,54 @@ import { Form, Col, Row, Button, InputGroup } from "react-bootstrap";
 import Navbar from "../../components/navbar";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 export default function Register() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState();
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [phone, setPhone] = useState();
   const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  
  
   const handleChange = (val, field) => {
-    if (field === "username") {
-      setUsername(val);
-    } else if (field === "password") {
+    if (field === "name") {
+      setName(val);
+    } if (field === "password") {
       setPassword(val);
-    } else {
-      setConfirmPassword(val);
-      console.log("PASSWORD:", val);
+    }if (field === "email") {
+      setEmail(val);
+    } if(field==="phone"){
+      setPhone(val);
     }
   };
   const handleRegister = () => {
-    alert("tạo tài khoản thành công!");
-
-    navigate("/login");
+   
+    axios
+      .post("https://lap-center.herokuapp.com/api/register", {
+        name: name,
+        email:email,
+        phone:phone,
+        password:password        
+      })
+      .then(function (response) {
+        console.log("SUCCESS:", response.data);
+        alert(
+          "tạo tài khoản thành công"
+        )
+        navigate("/login");
+      })
+      .catch(function (error) {
+        console.log("ERROR", error);
+        alert(
+          "Lỗi đăng kí, xin vui lòng thử lại!!!"
+        );
+      });
   };
+  // const handleRegister = () => {
+  //   alert("tạo tài khoản thành công!");
+
+  //   navigate("/login");
+  // };
 
   return (
     <div className="RegisterContainer">
@@ -34,17 +61,51 @@ export default function Register() {
           <Form.Group
             as={Row}
             className="mb-3 d-flex justify-content-between"
-            controlId="formPlaintextUsername"
+            controlId="formPlaintextname"
           >
-            <Form.Label column sm="2">
-              Username
+            <Form.Label column sm="3">
+              Customer's Name
             </Form.Label>
             <Col sm="9" className="">
               <Form.Control
                 type="text"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => handleChange(e.target.value, "username")}
+                placeholder="Customer's name"
+                value={name}
+                onChange={(e) => handleChange(e.target.value, "name")}
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group
+            as={Row}
+            className="mb-3 d-flex justify-content-between"
+            controlId="formPlaintextname"
+          >
+            <Form.Label column sm="3">
+              Email
+            </Form.Label>
+            <Col sm="9" className="">
+              <Form.Control
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => handleChange(e.target.value, "email")}
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group
+            as={Row}
+            className="mb-3 d-flex justify-content-between"
+            controlId="formPlaintextname"
+          >
+            <Form.Label column sm="3">
+          Phone
+            </Form.Label>
+            <Col sm="9" className="">
+              <Form.Control
+                type="Text"
+                placeholder="Phone"
+                value={phone}
+                onChange={(e) => handleChange(e.target.value, "phone")}
               />
             </Col>
           </Form.Group>
@@ -54,7 +115,7 @@ export default function Register() {
             className="mb-3 d-flex justify-content-between"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
+            <Form.Label column sm="3">
               Password
             </Form.Label>
             <Col sm="9">
@@ -66,31 +127,8 @@ export default function Register() {
               />
             </Col>
           </Form.Group>
-          <Form.Group
-            as={Row}
-            className="mb-3 d-flex justify-content-between"
-            controlId="formPlaintextPassword"
-          >
-            <Form.Label column sm="2">
-              Nhập lại Password
-            </Form.Label>
-            <Col sm="9">
-              <Form.Control
-                type="password"
-                placeholder="Nhập lại Password"
-                value={confirmPassword}
-                onChange={(e) =>
-                  handleChange(e.target.value, "confirmPassword")
-                }
-              />
-            </Col>
-          </Form.Group>
-          <div>
-            <InputGroup className="mb-3">
-              <InputGroup.Checkbox aria-label="Checkbox for following text input" />
-              remember password
-            </InputGroup>
-          </div>
+          
+         
           <div className="d-flex justify-content-center mt-4">
             <Button variant="success" className="" onClick={handleRegister}>
               Đăng kí
