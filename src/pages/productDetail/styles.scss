@@ -1,0 +1,45 @@
+.productDetailContainer{
+    width: 80%;
+    margin: 0 auto;
+    //background-color: aquamarine;
+    .tittle{
+        margin-top: 30px;
+    }
+    .info{
+        .productImg{
+            .imgSmall{
+width: 600px;
+height: 45px;
+
+            }
+        }
+        .price1{
+            color: rgb(41, 52, 169);
+        }
+    
+        .amount{
+            color: red;
+            font-size: 25px;
+            font-weight: 700;
+        }
+        .gift{
+            background-color: rgb(38, 104, 162);
+            color: antiquewhite;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 13px 5px;
+        }
+        .giftInfo{
+            border: 2px dotted black;
+            font-size: 18px;
+            font-weight: 700;
+            padding: 13px 5px;
+        }
+    }
+    .contact{
+        ul li{
+            color: black;
+        }
+    }
+    }
+   
