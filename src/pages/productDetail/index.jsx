@@ -20,16 +20,16 @@ export default function ProductDetail() {
               alt=""
               className="image"
             />
-            <div>
+            <div className="text-center">
               <img
                 src="https://philong.com.vn/media/product/24366-5.jpg"
                 alt=""
-                className="imgSmall"
+                className="imgSmall "
               />
             </div>
           </div>
           <div className="price col">
-            <span>Giá bán: </span> <span className="amount">20000000 VND</span>
+            <span className="price1">Giá bán: </span> <span className="amount">20000000 VND</span>
             <div className="gift">Khuyến mãi -Qùa tặng</div>
             <div className="giftInfo">Thông tin quà tặng</div>
             <div className="text-center">
