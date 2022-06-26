@@ -1,7 +1,9 @@
 import React from "react";
 import { Button } from 'react-bootstrap';
 import './styles.scss'
+import { useNavigate } from "react-router-dom";
 export default function Card({product}) {
+  const navigate=useNavigate();
   return (
     <div className="card-product pt-2 my-4 mx-2 ml-2">
       
@@ -14,7 +16,7 @@ export default function Card({product}) {
           <p>Gía: {product.price}</p>
       </div>
       <div className="btn-view">
-      <Button variant="primary">Xem sản phẩm</Button>{' '}
+      <Button variant="primary" onClick={()=>{navigate(`/product/${product._id}`,{state:{id: product._id}})}} >Xem sản phẩm</Button>{' '}
       </div>
     </div>
   );

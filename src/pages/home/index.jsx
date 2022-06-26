@@ -14,7 +14,7 @@ export default function Home() {
   useEffect(() => {
     console.log("Ham nay chay dau tien");
     //fetchAPI();
-    //fetchAxios();
+    fetchAxios();
   }, []);
   const fetchAPI = () => {
     fetch("https://reqres.in/api/users/")
@@ -28,7 +28,7 @@ export default function Home() {
   };
   const fetchAxios = () => {
     axios
-      .get("https://lap-center.herokuapp.com/api/product")
+      .get("https://lap-center-v1.herokuapp.com/api/product")
       .then(function (response) {
         // handle success
         console.log("SUCCESS: ", response.data);
@@ -148,7 +148,7 @@ export default function Home() {
   };
   const handleCallAPI = (productName, productBrand, priceSort) => {
     axios
-      .get("https://lap-center.herokuapp.com/api/product", {
+      .get("https://lap-center-v1.herokuapp.com/api/product", {
         params: {
           productName: productName,
           productBrand: productBrand,
