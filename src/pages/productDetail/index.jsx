@@ -1,14 +1,65 @@
-import React, { Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar";
 import "./styles.scss";
+import { Button } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
+import Footer from "../../components/footer";
+import axios from "axios";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import SameCard from "../../components/sameCard";
 
 export default function ProductDetail() {
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
+  const { state } = useLocation();
+  console.log("product Id: ", state.id);
+  const [product, setProduct] = useState();
+  const getProductId = () => {
+    axios
+      .get(
+        `https://lap-center-v1.herokuapp.com/api/product/getProductById/${state.id}`
+      )
+      .then(function (response) {
+        // handle success
+        console.log("SUCCESS: ", response.data.response);
+        setProduct(response.data.response);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log("ERROR: ", error);
+      })
+      .then(function () {
+        // always executed
+      });
+  };
+  useEffect(() => {
+    getProductId();
+  }, []);
+
   return (
     <>
       <Navbar />
       <div className="productDetailContainer">
         <div className="tittle">
-          <h3>PRODUCT DETAIL PAGE</h3>
+          <h3>{product?.name}</h3>
           <span>Tình trạng : còn hàng</span>
           <span className="mx-3">Bảo hành : 24 tháng</span>
         </div>
@@ -29,11 +80,12 @@ export default function ProductDetail() {
             </div>
           </div>
           <div className="price col">
-            <span className="price1">Giá bán: </span> <span className="amount">20000000 VND</span>
+            <span className="price1">Giá bán: </span>{" "}
+            <span className="amount">{product?.price}</span>
             <div className="gift">Khuyến mãi -Qùa tặng</div>
             <div className="giftInfo">Thông tin quà tặng</div>
             <div className="text-center">
-              <button className="my-4 bg-danger">Mua ngay</button>
+              <Button className="my-4 bg-danger">Mua ngay</Button>
               <br />
               <span>
                 GỌI NGAY{" "}
@@ -52,9 +104,8 @@ export default function ProductDetail() {
 
             <b>Địa chỉ mua hàng</b>
             <ul>
-              
-            <li>Đà nẵng : 123 Nguyễn văn linh</li>
-              <li>Huế  : 123 Lê Lợi</li>
+              <li>Đà nẵng : 123 Nguyễn văn linh</li>
+              <li>Huế : 123 Lê Lợi</li>
               <li>Nha Trang : 456 Phan Châu Trinh</li>
             </ul>
           </div>
@@ -67,35 +118,45 @@ export default function ProductDetail() {
               <th scope="col">Thông số kĩ thuật</th>
             </tr>
           </thead>
-          <tbody >
+          <tbody>
             <tr>
               <td>Model</td>
-              <td>@mdo</td>
+              <td>{product?.model}</td>
             </tr>
             <tr>
               <td>CPU</td>
-              <td>@fat</td>
+              <td>{product?.cpu}</td>
             </tr>
             <tr>
               <td>Ram</td>
-              <td>@twitter</td>
+              <td>{product?.ram}</td>
             </tr>
             <tr>
               <td> Ổ cứng</td>
-              <td>@fat</td>
+              <td>{product?.disk}</td>
             </tr>
             <tr>
               <td>Card đồ họa</td>
-              <td>@twitter</td>
+              <td>{product?.card}</td>
             </tr>
             <tr>
               <td>Màn hình</td>
-              <td>@fat</td>
+              <td>{product?.monitor}</td>
             </tr>
           </tbody>
         </table>
+        <p class='text-danger h3'>SẢN PHẨM CÙNG THƯƠNG HIỆU</p>
         <hr />
+        <Carousel responsive={responsive}>
+          <SameCard product={product}/>
+          <div>Item 1</div>
+          <div>Item 2</div>
+          <div>Item 3</div>
+          <div>Item 4</div>
+        </Carousel>
+        ;
       </div>
+      <Footer />
     </>
   );
 }
