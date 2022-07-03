@@ -7,9 +7,16 @@
   }
   .info {
     .productImg {
+      .image{
+        // max-width: 500px;
+        max-width: 300px;
+        max-height: auto;
+      }
       .imgSmall {
         width: 60px;
         height: 45px;
+        margin: 0 10px;
+        border: 1px solid black;
         
       }
     }
