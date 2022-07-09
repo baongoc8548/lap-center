@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 export default function Card({product}) {
   const navigate=useNavigate();
   return (
-    <div className="card-product pt-2 my-4 mx-2 ml-2">
+    <div className="card-product pt-2 my-4 mx-2 ml-2" title={product.name}>
       
           <img className="img" src={product.images[0]} alt="p1" />
       
       <div className="info-product">
-          <h5>{product.name}</h5>
+          <h5 className="name">{product.name}</h5>
           <p>Hãng: {product.brand}</p>
           <p>Chip: {product.cpu}</p>
           <p>Gía: {product.price}</p>
