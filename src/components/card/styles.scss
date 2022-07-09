@@ -19,6 +19,15 @@ border-radius: 10px;
     p{
         margin-top: -15px;
     }
+    .name{
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-overflow:ellipsis;
+        overflow: hidden;
+        
+
+    }
 }
 .btn-view{
     text-align: center;

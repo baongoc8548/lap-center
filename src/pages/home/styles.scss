@@ -1,14 +1,31 @@
-.homeContainer{
-    width: 100%;
-    .content{
-        display: flex;
+.homeContainer {
+  width: 100%;
+  
+  .content {
+   padding-top: 60px;
+  }
+  .menu_top {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    .d-flex{
+        height: 40px;
     }
-    .menu_letf{
-        width: 20%;
-       
-
+    .btnSearch{
+        width: 150px;
     }
-    .list-products{
-        width: 80%;
+    .selectForm {
+      .selectBox {
+        width: 250px;
+        font-weight: 600;
+        height: 40px;
+      }
     }
+  }
+  .list-products {
+    width: 80%;
+    margin: 0 auto;
+    // margin-left: 15%;
+  }
 }
