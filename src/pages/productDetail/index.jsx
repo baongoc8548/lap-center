@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar";
 import "./styles.scss";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import Footer from "../../components/footer";
 import axios from "axios";
@@ -35,8 +35,10 @@ export default function ProductDetail() {
   const [productsBrand, setProductsBrand] = useState();
   const [product, setProduct] = useState();
   const [image, setImage] = useState();
+  const[loading,setLoading]=useState(true);
 
   const getProductId = () => {
+
     axios
       .get(
         `https://lap-center-v1.herokuapp.com/api/product/getProductById/${state.id}`
@@ -46,11 +48,14 @@ export default function ProductDetail() {
         const data = response.data.response;
         console.log("SUCCESS: ", data);
         setProduct(data);
+        setLoading(false)
         setImage(data.images[0]);
       })
       .catch(function (error) {
         // handle error
         console.log("ERROR: ", error);
+        setLoading(false);
+        alert("Something went wrong!!!")
       })
       .then(function () {
         // always executed
@@ -71,10 +76,13 @@ export default function ProductDetail() {
         // handle success
         console.log("SUCCESS 1: ", response.data);
         setProductsBrand(response.data.products);
+        setLoading(false)
       })
       .catch(function (error) {
         // handle error
         console.log("ERROR 2: ", error);
+        setLoading(false);
+        alert("Something went wrong!!!")
       })
       .then(function () {
         // always executed
@@ -85,6 +93,8 @@ export default function ProductDetail() {
     <>
       <Navbar />
       <div className="productDetailContainer">
+      {(loading=== false ) ? (
+      <div>
         <div className="tittle">
           <h3>{product?.name}</h3>
           <span>Tình trạng : còn hàng</span>
@@ -173,7 +183,14 @@ export default function ProductDetail() {
             productsBrand?.map((item,index) => <SameCard product={item} key={index} />)}
         </Carousel>
         ;
+        </div>
+      ) : (
+        <div className="text-center">
+          <Spinner animation="border" variant="danger" />
+        </div>
+      )}
       </div>
+           
       <Footer />
     </>
   );
