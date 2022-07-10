@@ -2,16 +2,18 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../components/navbar";
 import Card from "../../components/card";
 import { data } from "../../data";
+import ReactPaginate from "react-paginate";
 import { Form, Button, Spinner } from "react-bootstrap";
 import "./styles.scss";
 import axios from "axios";
+import Footer from "../../components/footer";
 
 export default function Home() {
   const [list, setList] = useState([]);
   const [search, setSearch] = useState("");
   const [brand, setBrand] = useState("");
   const [price, setPrice] = useState();
-  const[loading,setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     console.log("Ham nay chay dau tien");
     //fetchAPI();
@@ -33,14 +35,14 @@ export default function Home() {
       .then(function (response) {
         // handle success
         console.log("SUCCESS: ", response.data);
-        setLoading(false)
+        setLoading(false);
         setList(response.data.products);
       })
       .catch(function (error) {
         // handle error
         console.log("ERROR: ", error);
         setLoading(false);
-        alert("Something went wrong!!!")
+        alert("Something went wrong!!!");
       })
       .then(function () {
         // always executed
@@ -151,7 +153,7 @@ export default function Home() {
     handleCallAPI(search, brand, val);
   };
   const handleCallAPI = (productName, productBrand, priceSort) => {
-    setLoading(true)
+    setLoading(true);
     axios
       .get("https://lap-center-v1.herokuapp.com/api/product", {
         params: {
@@ -164,15 +166,14 @@ export default function Home() {
       .then(function (response) {
         // handle success
         console.log("SUCCESS: ", response.data);
-        setLoading(false)
+        setLoading(false);
         setList(response.data.products);
       })
       .catch(function (error) {
         // handle error
         console.log("ERROR: ", error);
-        setLoading(false)
-        alert("Something went wrong!!!")
-
+        setLoading(false);
+        alert("Something went wrong!!!");
       })
       .then(function () {
         // always executed
@@ -236,10 +237,10 @@ export default function Home() {
               </select>
             </p>
           </div>
-        </div>  
+        </div>
 
         <div className="d-flex flex-wrap list-products justify-content-around">
-          {(loading=== false && list.length > 0) ? (
+          {loading === false && list.length > 0 ? (
             list.map((item) => <Card product={item} key={item.id} />)
           ) : (
             <div className="text-center">
@@ -248,6 +249,22 @@ export default function Home() {
           )}
         </div>
       </div>
+      <div className="pagination">
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
+          pageCount={10}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={(e) => console.log("eee: ", e.selected + 1)}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
+      </div>
+      <Footer />
     </div>
   );
 }

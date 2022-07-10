@@ -36,8 +36,10 @@ export default function ProductDetail() {
   const [product, setProduct] = useState();
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(true);
+  const location =useLocation();
 
   const getProductId = () => {
+    setLoading(true)
     axios
       .get(
         `https://lap-center-v1.herokuapp.com/api/product/getProductById/${state.id}`
@@ -61,10 +63,14 @@ export default function ProductDetail() {
       });
   };
   useEffect(() => {
+    //hàm này chạy đầu tiên , nếu [] để rỗng
+    //hàm này sẽ chạy khi dữ liêu abc hoặc def trong [abc,def] có sự thay đổi
     getProductId();
     getProductsBrand();
-  }, []);
+  }, [location]);
   const getProductsBrand = () => {
+    setLoading(true)
+
     axios
       .get("https://lap-center-v1.herokuapp.com/api/product", {
         params: {
