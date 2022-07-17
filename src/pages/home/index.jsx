@@ -14,6 +14,9 @@ export default function Home() {
   const [brand, setBrand] = useState("");
   const [price, setPrice] = useState();
   const [loading, setLoading] = useState(true);
+  const [totalPage, setTotalPage] = useState(0);
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     console.log("Ham nay chay dau tien");
     //fetchAPI();
@@ -31,12 +34,13 @@ export default function Home() {
   };
   const fetchAxios = () => {
     axios
-      .get("https://lap-center-v1.herokuapp.com/api/product")
+      .get("https://lap-center-v1.herokuapp.com/api/product?pageSize=6&pageNumber=1")
       .then(function (response) {
         // handle success
         console.log("SUCCESS: ", response.data);
         setLoading(false);
         setList(response.data.products);
+        setTotalPage(response.data.totalPage)
       })
       .catch(function (error) {
         // handle error
@@ -161,6 +165,8 @@ export default function Home() {
           productBrand: productBrand,
           orderByColumn: "price",
           orderByDirection: priceSort,
+          pageSize:6,
+          pageNumber:page
         },
       })
       .then(function (response) {
@@ -179,6 +185,29 @@ export default function Home() {
         // always executed
       });
   };
+  const handleChangePage =(pageNumber)=>{
+console.log("PAGE NUMBER: ",pageNumber)
+setPage(pageNumber)
+setLoading(true)
+axios
+.get(`https://lap-center-v1.herokuapp.com/api/product?pageSize=6&pageNumber=${pageNumber}`)
+.then(function (response) {
+  // handle success
+  console.log("SUCCESS: ", response.data);
+  setLoading(false);
+  setList(response.data.products);
+  setTotalPage(response.data.totalPage)
+})
+.catch(function (error) {
+  // handle error
+  console.log("ERROR: ", error);
+  setLoading(false);
+  alert("Something went wrong!!!");
+})
+.then(function () {
+  // always executed
+});
+  }
   return (
     <div className="homeContainer">
       <Navbar />
@@ -255,10 +284,10 @@ export default function Home() {
           nextLabel={">"}
           breakLabel={"..."}
           breakClassName={"break-me"}
-          pageCount={10}
+          pageCount={totalPage}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
-          onPageChange={(e) => console.log("eee: ", e.selected + 1)}
+          onPageChange={(e) => handleChangePage(e.selected + 1)}
           containerClassName={"pagination"}
           subContainerClassName={"pages pagination"}
           activeClassName={"active"}
