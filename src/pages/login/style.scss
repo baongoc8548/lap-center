@@ -1,29 +1,52 @@
-.loginContainer{
-    padding-top: 0.2px;
-    .formLogin{
-        width: 500px;
-height: auto;
-padding: 50px;
-margin: 0 auto;
-background-color: palevioletred;
-margin-top: 100px;
--webkit-box-shadow: 7px 5px 13px -2px #000000; 
-box-shadow: 7px 5px 13px -2px #000000;
-border:1px solid black ;
-border-radius: 15px;
+.loginContainer {
+  height: 100vh;
+  //height=100% => là 100% của tổng chiều dài các phần tử con công lại
+  //height =100vh =>  là 100% của chiều dài trình duyệt
+  width: 100vw;
 
-h2{
-    text-align: center;
-    margin-bottom: 30px;
-}
-.create{
-    color: rgb(11, 11, 133);
-    text-align: center;
-    margin-top: 20px;
+  background: rgb(245, 173, 205);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 173, 205, 1) 11%,
+    rgba(144, 195, 255, 1) 90%
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .iconHome{
+    top: 10px;
+    left: 10px;
+    position: absolute;
+    border-radius: 50%;
     cursor: pointer;
-    &:hover{
+  }
+  .formLogin {
+    width: 700px;
+    height: auto;
+    padding: 50px;
+    margin: 0 auto;
+    background-color: palevioletred;
+    box-shadow: 2.9px 1.8px 2.7px rgba(0, 0, 0, 0.043),
+      7.2px 4.5px 6.9px rgba(0, 0, 0, 0.09),
+      14.7px 9.2px 14.2px rgba(0, 0, 0, 0.144),
+      30.3px 19px 29.2px rgba(0, 0, 0, 0.193),
+      83px 52px 80px rgba(0, 0, 0, 0.24);
+
+    
+    border-radius: 15px;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .create {
+      color: rgb(11, 11, 133);
+      text-align: center;
+      margin-top: 20px;
+      cursor: pointer;
+      &:hover {
         color: rgb(12, 12, 94);
+      }
     }
-}
-    }
+  }
 }
