@@ -1,6 +1,7 @@
 .navbar-container{
     padding: 20px 10px 10px 10px;
-    background-color: palevioletred;
+    background: rgb(245,173,205);
+    background: linear-gradient(90deg, rgba(245,173,205,1) 11%, rgba(144,195,255,1) 90%);
     position: fixed;
     width: 100%;
 }

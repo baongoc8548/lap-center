@@ -16,7 +16,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [totalPage, setTotalPage] = useState(0);
   const [page, setPage] = useState(1);
-
+  const customerName = localStorage.getItem("customerName");
   useEffect(() => {
     console.log("Ham nay chay dau tien");
     //fetchAPI();
@@ -34,13 +34,15 @@ export default function Home() {
   };
   const fetchAxios = () => {
     axios
-      .get("https://lap-center-v1.herokuapp.com/api/product?pageSize=6&pageNumber=1")
+      .get(
+        "https://lap-center-v1.herokuapp.com/api/product?pageSize=12&pageNumber=1"
+      )
       .then(function (response) {
         // handle success
         console.log("SUCCESS: ", response.data);
         setLoading(false);
         setList(response.data.products);
-        setTotalPage(response.data.totalPage)
+        setTotalPage(response.data.totalPage);
       })
       .catch(function (error) {
         // handle error
@@ -165,8 +167,8 @@ export default function Home() {
           productBrand: productBrand,
           orderByColumn: "price",
           orderByDirection: priceSort,
-          pageSize:6,
-          pageNumber:page
+          pageSize: 6,
+          pageNumber: page,
         },
       })
       .then(function (response) {
@@ -185,32 +187,35 @@ export default function Home() {
         // always executed
       });
   };
-  const handleChangePage =(pageNumber)=>{
-console.log("PAGE NUMBER: ",pageNumber)
-setPage(pageNumber)
-setLoading(true)
-axios
-.get(`https://lap-center-v1.herokuapp.com/api/product?pageSize=6&pageNumber=${pageNumber}`)
-.then(function (response) {
-  // handle success
-  console.log("SUCCESS: ", response.data);
-  setLoading(false);
-  setList(response.data.products);
-  setTotalPage(response.data.totalPage)
-})
-.catch(function (error) {
-  // handle error
-  console.log("ERROR: ", error);
-  setLoading(false);
-  alert("Something went wrong!!!");
-})
-.then(function () {
-  // always executed
-});
-  }
+  const handleChangePage = (pageNumber) => {
+    console.log("PAGE NUMBER: ", pageNumber);
+    setPage(pageNumber);
+    setLoading(true);
+    axios
+      .get(
+        `https://lap-center-v1.herokuapp.com/api/product?pageSize=6&pageNumber=${pageNumber}`
+      )
+      .then(function (response) {
+        // handle success
+        console.log("SUCCESS: ", response.data);
+        setLoading(false);
+        setList(response.data.products);
+        setTotalPage(response.data.totalPage);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log("ERROR: ", error);
+        setLoading(false);
+        alert("Something went wrong!!!");
+      })
+      .then(function () {
+        // always executed
+      });
+  };
   return (
     <div className="homeContainer">
       <Navbar />
+
       <div className="content">
         <div className="menu_top mx-10">
           <div className="d-flex mt-4">
@@ -266,8 +271,15 @@ axios
               </select>
             </p>
           </div>
+          <div className="my-4">
+            {customerName && (
+              <>
+                <span className="text-success">Chào mừng, </span>{" "}
+                <span className="h5">{customerName}</span>
+              </>
+            )}
+          </div>
         </div>
-
         <div className="d-flex flex-wrap list-products justify-content-around">
           {loading === false && list.length > 0 ? (
             list.map((item) => <Card product={item} key={item.id} />)

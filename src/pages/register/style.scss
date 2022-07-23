@@ -1,5 +1,22 @@
 .RegisterContainer{
     padding-top: 0.5px;
+    height: 100vh;
+    //height=100% => là 100% của tổng chiều dài các phần tử con công lại
+    //height =100vh =>  là 100% của chiều dài trình duyệt
+    width: 100vw;
+    background: rgb(245, 173, 205);
+  background: linear-gradient(
+    90deg,
+    rgba(245, 173, 205, 1) 11%,
+    rgba(144, 195, 255, 1) 90%
+  );
+    .iconHome{
+        top: 10px;
+        left: 10px;
+        position: absolute;
+        border-radius: 50%;
+        cursor: pointer;
+      }
     .formContainer{
         width: 800px;
 height: auto;   

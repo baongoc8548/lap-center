@@ -4,7 +4,9 @@ import Navbar from "../../components/navbar";
 import "./style.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import iconHome from "../../assets/imgs/iconHome.png" ;
 const fakeAccount = { username: "admin", password: "admin" };
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,13 +15,14 @@ export default function Login() {
   const handleChange = (val, field) => {
     if (field === "username") {
       setUsername(val);
-      console.log("Username: ", val);
+      //console.log("Username: ", val);
     } else {
       setPassword(val);
-      console.log("Password: ", val);
+      //console.log("Password: ", val);
     }
   };
   const hanldeLogin = () => {
+    console.log(username,password)
     // if(username===fakeAccount.username && password===fakeAccount.password){
     //   console.log("DANG NHAP THANH CONG!");
     //   navigate('/')
@@ -36,6 +39,14 @@ export default function Login() {
       })
       .then(function (response) {
         console.log("SUCCESS:", response.data);
+        //localStorage gồm 4 functions chính:
+        //-setItem => dùng để cài đặt tên biến và giá trị của biến 
+        //-getItem=> lấy giá trị của biến cần lấy
+        //-removeItem => xóa tên biến và giá trị của biến đố ra khỏi storage
+        //-clear=> xóa tất cả tên biến và giá trị của nó khỏi storage
+        localStorage.setItem('customerName',response.data.userName)
+        localStorage.setItem('accessToken',response.data.token)
+       // localStorage.setItem('')
         navigate("/");
       })
       .catch(function (error) {
@@ -47,7 +58,8 @@ export default function Login() {
   };
   return (
     <div className="loginContainer">
-      <Navbar />
+    <img src={iconHome} alt="" width={45} height={48} className="iconHome" title="Trang Chủ" onClick={()=>navigate('/')}/>
+
       <div className="formLogin">
         <h2>Đăng nhập</h2>
         <Form>
@@ -56,13 +68,13 @@ export default function Login() {
             className="mb-3 d-flex justify-content-between"
             controlId="formPlaintextUsername"
           >
-            <Form.Label column sm="2">
-              Username
+            <Col sm="12" className="">
+            <Form.Label >
+              Email hoặc Số điện thoại
             </Form.Label>
-            <Col sm="9" className="">
               <Form.Control
                 type="text"
-                placeholder="Username"
+                placeholder="Email hoặc Số điện thoại"
                 value={username}
                 onChange={(e) => handleChange(e.target.value, "username")}
               />
@@ -74,13 +86,13 @@ export default function Login() {
             className="mb-3 d-flex justify-content-between"
             controlId="formPlaintextPassword"
           >
-            <Form.Label column sm="2">
-              Password
+            <Col sm="12">
+            <Form.Label >
+              Mật khẩu
             </Form.Label>
-            <Col sm="9">
               <Form.Control
                 type="password"
-                placeholder="Password"
+                placeholder="Mật khẩu"
                 value={password}
                 onChange={(e) => handleChange(e.target.value, "password")}
               />
