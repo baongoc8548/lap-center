@@ -1,0 +1,24 @@
+.buyContainer{
+    width: 100%;
+    .formBuy{
+        padding-top:85px;
+        width: 60%;
+        margin: 0 auto;
+        .icon{
+            border: none;
+            padding: 5px 10px;
+        }
+        .fa-solid{
+            color:white;
+        }
+        .inp{
+            width: 70px;
+            height: 39px;
+            margin-top: -15px;
+        }
+
+        .mx-2 {
+           margin-top: -7px;
+        }
+    }
+}
