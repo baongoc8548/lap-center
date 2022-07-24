@@ -1,7 +1,14 @@
 import React from "react";
 import "./styles.scss";
 import { Link } from "react-router-dom";
+import { Navigate } from "react-router-dom";
+
 export default function Navbar() {
+  const accessToken = localStorage.getItem("accessToken");
+  const handleLogout = () => {
+    localStorage.clear();
+  };
+
   return (
     <div className="d-flex justify-content-between navbar-container">
       <div className="logoIcon">
@@ -17,9 +24,17 @@ export default function Navbar() {
             <Link to="about">GIỚI THIỆU</Link>
           </li>
           <li>LIÊN HỆ</li>
-          <li>
-            <Link to="login">ĐĂNG NHẬP</Link>
-          </li>
+          {accessToken ? (
+            <li>
+              <Link to="login" onClick={handleLogout}>
+                ĐĂNG XUẤT
+              </Link>
+            </li>
+          ) : (
+            <li>
+              <Link to="login">ĐĂNG NHẬP</Link>
+            </li>
+          )}
         </ul>
       </div>
     </div>
