@@ -33,7 +33,7 @@ export default function Login() {
     //   alert("Tên tài khoản hoặc mật khẩu không chính xác. vui lòng thử lại!!!")
     // }
     axios
-      .post("https://lap-center-v1.herokuapp.com/api/login", {
+      .post("https://lap-center.herokuapp.com/api/login", {
         username: username,
         password: password,
       })
