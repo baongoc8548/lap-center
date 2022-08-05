@@ -27,7 +27,7 @@ export default function Register() {
   const handleRegister = () => {
    
     axios
-      .post("https://lap-center-v1.herokuapp.com/api/register", {
+      .post("https://lap-center.herokuapp.com/api/register", {
         name: name,
         email:email,
         phone:phone,

@@ -3,28 +3,29 @@ import Navbar from "../../components/navbar";
 import "./styles.scss";
 import axios from "axios";
 //import img from "../../assets/imgs/laptop.png";
-import Button from "react-bootstrap/Button";
+import { Button, Spinner } from "react-bootstrap";
 import { Form, Col, Row, InputGroup } from "react-bootstrap";
-
+import { useLocation } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
 const Buy = () => {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
   const [address, setAddress] = useState();
   const [quantity, setQuantity] = useState(1);
-
+  const [modalShow, setModalShow] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
   const [product, setProduct] = useState();
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(true);
-  const [disable, setDisable] = useState(true);
-  
+
+  const { state } = useLocation();
   const getProductId = () => {
     setLoading(true);
     axios
       .get(
-        `https://lap-center-v1.herokuapp.com/api/product/getProductById/60c07aaea1364c3894ac0b51`
+        `https://lap-center.herokuapp.com/api/product/getProductById/${state.id}`
       )
       .then(function (response) {
         // handle success
@@ -68,7 +69,6 @@ const Buy = () => {
       setQuantity(val);
       setTotalPrice(val * product?.price);
     }
-
   };
   const handleUpOrDownQuantity = (method) => {
     if (method === "plus") {
@@ -84,130 +84,195 @@ const Buy = () => {
       }
     }
   };
+
   useEffect(() => {
     getProductId();
   }, []);
+  let checkInfo = false;
+  if (!name || !phone || !email || !address) checkInfo = false;
+  if (name && phone && email && address) checkInfo = true;
 
   return (
-    <div className="buyContainer">
-      <Navbar />
-      <div className="formBuy">
-        <div>
-          <b className="text-danger ">Để đặt hàng,</b>
-          <span>
-            quý khách vui lòng kiểm tra sản phẩm, số lượng, giá, và điền các
-            thông tin dưới đây
-          </span>
-          <div className="d-flex justify-content-between mt-4">
-            <img src={image} width={100} height={80} alt="" />
-            <p className="fw-bold h4 mt-3">{product?.name}</p>
-            <div className="mt-3">
-              <Button
-                className="mx-2"
-                variant="primary"
-                onClick={() => handleUpOrDownQuantity("minus")}
-              >
-                <i class="fa-solid fa-circle-minus"></i>
-              </Button>
+    <>
+      <div className="buyContainer">
+        <Navbar />
+        {loading === false ? (
+          <div className="formBuy">
+            <div>
+              <b className="text-danger ">Để đặt hàng,</b>
+              <span>
+                quý khách vui lòng kiểm tra sản phẩm, số lượng, giá, và điền các
+                thông tin dưới đây
+              </span>
+              <div className="d-flex justify-content-between mt-4">
+                <img src={image} width={100} height={80} alt="" />
+                <p className="fw-bold h4 mt-3">{product?.name}</p>
+                <div className="mt-3">
+                  <Button
+                    className="mx-2"
+                    variant="primary"
+                    onClick={() => handleUpOrDownQuantity("minus")}
+                  >
+                    <i class="fa-solid fa-circle-minus"></i>
+                  </Button>
 
-              <input
-                type="number"
-                className="inp px-2"
-                value={quantity}
-                onChange={(e) => hanldeChangeQuatity(e.target.value)}
-              />
-              <Button
-                className="mx-2"
-                variant="primary"
-                onClick={() => handleUpOrDownQuantity("plus")}
-              >
-                <i class="fa-solid fa-circle-plus"></i>
-              </Button>
+                  <input
+                    type="number"
+                    className="inp px-2"
+                    value={quantity}
+                    onChange={(e) => hanldeChangeQuatity(e.target.value)}
+                  />
+                  <Button
+                    className="mx-2"
+                    variant="primary"
+                    onClick={() => handleUpOrDownQuantity("plus")}
+                  >
+                    <i class="fa-solid fa-circle-plus"></i>
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <div className="d-flex justify-content-between">
+              <div />
+              <p className="fw-bold">{product?.price} VND</p>
+            </div>
+            <hr />
+            <div className="d-flex justify-content-between">
+              <p className="fw-bold h4">Tổng tiền: </p>
+              <p className="fw-bold text-danger h3">{totalPrice} VND</p>
+            </div>
+            <div className="order">
+              <Form>
+                <Form.Group
+                  as={Row}
+                  className="mb-3 d-flex justify-content-between"
+                  controlId="formPlaintextname"
+                >
+                  <Col sm="12" className="">
+                    <Form.Label>Họ tên</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Họ tên"
+                      value={name}
+                      onChange={(e) => handleChange(e.target.value, "name")}
+                    />
+                  </Col>
+                </Form.Group>
+                <Form.Group
+                  as={Row}
+                  className="mb-3 d-flex justify-content-between"
+                  controlId="formPlaintextname"
+                >
+                  <Col sm="12" className="">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Email"
+                      value={email}
+                      onChange={(e) => handleChange(e.target.value, "email")}
+                    />
+                  </Col>
+                </Form.Group>
+                <Form.Group
+                  as={Row}
+                  className="mb-3 d-flex justify-content-between"
+                  controlId="formPlaintextname"
+                >
+                  <Col sm="12" className="">
+                    <Form.Label>Số điện thoại</Form.Label>
+                    <Form.Control
+                      type="number"
+                      placeholder="Số điện thoại"
+                      value={phone}
+                      onChange={(e) => handleChange(e.target.value, "phone")}
+                    />
+                  </Col>
+                </Form.Group>
+
+                <Form.Group
+                  as={Row}
+                  className="mb-3 d-flex justify-content-between"
+                  controlId="formPlaintextPassword"
+                >
+                  <Col sm="12">
+                    <Form.Label>Địa chỉ nhận hàng</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      type="text"
+                      placeholder="Địa chỉ nhận hàng"
+                      value={address}
+                      onChange={(e) => handleChange(e.target.value, "address")}
+                    />
+                  </Col>
+                </Form.Group>
+
+                <div className="d-flex justify-content-center mt-4">
+                  <Button
+                    variant="success"
+                    className=""
+                    disabled={!checkInfo}
+                    onClick={() => setModalShow(true)}
+                  >
+                    Đặt hàng
+                  </Button>{" "}
+                </div>
+              </Form>
             </div>
           </div>
-        </div>
-        <div className="d-flex justify-content-between">
-          <div />
-          <p className="fw-bold">{product?.price} VND</p>
-        </div>
-        <hr />
-        <div className="d-flex justify-content-between">
-          <p className="fw-bold h4">Tổng tiền: </p>
-          <p className="fw-bold text-danger h3">{totalPrice} VND</p>
-        </div>
-        <Form>
-          <Form.Group
-            as={Row}
-            className="mb-3 d-flex justify-content-between"
-            controlId="formPlaintextname"
-          >
-            <Col sm="12" className="">
-              <Form.Label>Họ tên</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Họ tên"
-                value={name}
-                onChange={(e) => handleChange(e.target.value, "name")}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group
-            as={Row}
-            className="mb-3 d-flex justify-content-between"
-            controlId="formPlaintextname"
-          >
-            <Col sm="12" className="">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => handleChange(e.target.value, "email")}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group
-            as={Row}
-            className="mb-3 d-flex justify-content-between"
-            controlId="formPlaintextname"
-          >
-            <Col sm="12" className="">
-              <Form.Label>Số điện thoại</Form.Label>
-              <Form.Control
-                type="Text"
-                placeholder="Số điện thoại"
-                value={phone}
-                onChange={(e) => handleChange(e.target.value, "phone")}
-              />
-            </Col>
-          </Form.Group>
-
-          <Form.Group
-            as={Row}
-            className="mb-3 d-flex justify-content-between"
-            controlId="formPlaintextPassword"
-          >
-            <Col sm="12">
-              <Form.Label>Địa chỉ nhận hàng</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                type="text"
-                placeholder="Địa chỉ nhận hàng"
-                value={address}
-                onChange={(e) => handleChange(e.target.value, "address")}
-              />
-            </Col>
-          </Form.Group>
-
-          <div className="d-flex justify-content-center mt-4">
-            <Button variant="success" className="" disabled={disable}>
-              Đặt hàng
-            </Button>{" "}
+        ) : (
+          <div className="text-center">
+            <Spinner animation="border" variant="danger" />
           </div>
-        </Form>
+        )}
+        <Modal
+          show={modalShow}
+          onHide={() => setModalShow(false)}
+          size="lg"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              XÁC NHẬN THÔNG TIN
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="d-flex">
+              <div>
+                <img src={image} width={200} height={150} alt="" />
+              </div>
+              <div className="mx-5">
+                <div>
+                  <h5>Thông tin sản phẩm</h5>
+                  <span>Tên sản phẩm: </span> <span className="">{product?.name}</span>
+                  <br />
+                  <span>Hãng:</span> <span>{product?.brand} </span>
+                  <br />
+                  <span>Số lượng: </span> <span>{quantity}</span>
+                  <br />
+                  <span>Tổng tiền: </span> <span>{totalPrice} </span>
+                </div>
+                <div>
+                  <h5>Thông tin khách hàng</h5>
+                  <span>Tên Khách hàng: </span> <span>{name}</span>
+                  <br />
+                  <span>Email </span><span>{email}</span>
+                  <br />
+                  <span>Số điện thoại: </span> <span>{phone}</span>
+                  <br />
+                  <span>Địa chỉ: </span><span>{address}</span>
+                </div>
+              </div>
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => setModalShow(false)}>Close</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
-    </div>
+      {/* {loading && <div style={{ marginTop: "370px" }} />} */}
+    </>
   );
 };
 export default Buy;

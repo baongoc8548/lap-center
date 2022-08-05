@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar";
 import "./styles.scss";
 import { Button, Spinner } from "react-bootstrap";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Footer from "../../components/footer";
 import axios from "axios";
 import Carousel from "react-multi-carousel";
@@ -36,13 +36,14 @@ export default function ProductDetail() {
   const [product, setProduct] = useState();
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(true);
-  const location =useLocation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const getProductId = () => {
-    setLoading(true)
+    setLoading(true);
     axios
       .get(
-        `https://lap-center-v1.herokuapp.com/api/product/getProductById/${state.id}`
+        `https://lap-center.herokuapp.com/api/product/getProductById/${state.id}`
       )
       .then(function (response) {
         // handle success
@@ -69,10 +70,10 @@ export default function ProductDetail() {
     getProductsBrand();
   }, [location]);
   const getProductsBrand = () => {
-    setLoading(true)
+    setLoading(true);
 
     axios
-      .get("https://lap-center-v1.herokuapp.com/api/product", {
+      .get("https://lap-center.herokuapp.com/api/product", {
         params: {
           productBrand: state.brand,
         },
@@ -128,7 +129,16 @@ export default function ProductDetail() {
                 <div className="gift">Khuyến mãi -Qùa tặng</div>
                 <div className="giftInfo">Thông tin quà tặng</div>
                 <div className="text-center">
-                  <Button className="my-4 bg-danger">Mua ngay</Button>
+                  <Button
+                    className="my-4 bg-danger"
+                    onClick={() => {
+                      navigate(`/buy/${product._id}`, {
+                        state: { id: product._id },
+                      });
+                    }}
+                  >
+                    Mua ngay
+                  </Button>
                   <br />
                   <span>
                     GỌI NGAY{" "}
