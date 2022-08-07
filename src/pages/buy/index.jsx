@@ -15,17 +15,18 @@ const Buy = () => {
   const [quantity, setQuantity] = useState(1);
   const [modalShow, setModalShow] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
-
   const [product, setProduct] = useState();
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(true);
+  const [modalConfirm, setModalConfirm] = useState(false);
+  const [message, setMessage] = useState();
 
   const { state } = useLocation();
   const getProductId = () => {
     setLoading(true);
     axios
       .get(
-        `https://lap-center.herokuapp.com/api/product/getProductById/${state.id}`
+        `https://lap-center-v1.herokuapp.com/api/product/getProductById/${state.id}`
       )
       .then(function (response) {
         // handle success
@@ -91,6 +92,32 @@ const Buy = () => {
   let checkInfo = false;
   if (!name || !phone || !email || !address) checkInfo = false;
   if (name && phone && email && address) checkInfo = true;
+  const handleOrderProduct = () => {
+    setLoading(true);
+    axios
+      .post("https://lap-center.herokuapp.com/api/order/addOrder", {
+        customerName: name,
+        email: email,
+        phone: phone,
+        address: address,
+        productName: product?.name,
+        productBrand: product?.brand,
+        quantity: quantity,
+        orderStatus: 1,
+      })
+      .then((res) => {
+        // alert("Tạo đơn hàng thành công!!");
+        setModalConfirm(true);
+        setMessage("Tạo đơn hàng thành công!!!");
+        setLoading(false);
+      })
+      .catch((err) => {
+        setModalConfirm(true);
+        setMessage("Tạo đơn hàng thất bại!!!");
+        setLoading(false);
+      });
+    setModalShow(false);
+  };
 
   return (
     <>
@@ -231,9 +258,13 @@ const Buy = () => {
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
+          backdrop="static"
         >
           <Modal.Header closeButton>
-            <Modal.Title id="contained-modal-title-vcenter">
+            <Modal.Title
+              id="contained-modal-title-vcenter"
+              className="text-danger"
+            >
               XÁC NHẬN THÔNG TIN
             </Modal.Title>
           </Modal.Header>
@@ -244,30 +275,58 @@ const Buy = () => {
               </div>
               <div className="mx-5">
                 <div>
-                  <h5>Thông tin sản phẩm</h5>
-                  <span>Tên sản phẩm: </span> <span className="">{product?.name}</span>
+                  <h5 className="text-danger">Thông tin sản phẩm</h5>
+                  <span>Tên sản phẩm: </span>{" "}
+                  <span className="fw-bold">{product?.name}</span>
                   <br />
-                  <span>Hãng:</span> <span>{product?.brand} </span>
+                  <span>Hãng:</span>{" "}
+                  <span className="fw-bold">{product?.brand} </span>
                   <br />
-                  <span>Số lượng: </span> <span>{quantity}</span>
+                  <span>Số lượng: </span>{" "}
+                  <span className="fw-bold">{quantity}</span>
                   <br />
-                  <span>Tổng tiền: </span> <span>{totalPrice} </span>
+                  <span>Tổng tiền: </span>{" "}
+                  <span className="fw-bold">{totalPrice} VNĐ </span>
                 </div>
-                <div>
-                  <h5>Thông tin khách hàng</h5>
-                  <span>Tên Khách hàng: </span> <span>{name}</span>
+                <div className="mt-3">
+                  <h5 className="text-danger">Thông tin khách hàng</h5>
+                  <span>Tên Khách hàng: </span>{" "}
+                  <span className="fw-bold">{name}</span>
                   <br />
-                  <span>Email </span><span>{email}</span>
+                  <span>Email </span>
+                  <span className="fw-bold">{email}</span>
                   <br />
-                  <span>Số điện thoại: </span> <span>{phone}</span>
+                  <span>Số điện thoại: </span>{" "}
+                  <span className="fw-bold">{phone}</span>
                   <br />
-                  <span>Địa chỉ: </span><span>{address}</span>
+                  <span>Địa chỉ: </span>
+                  <span className="fw-bold">{address}</span>
                 </div>
               </div>
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={() => setModalShow(false)}>Close</Button>
+            <Button onClick={handleOrderProduct}>Xác nhận</Button>
+          </Modal.Footer>
+        </Modal>
+        {/* confirm */}
+        <Modal
+          show={modalConfirm}
+          onHide={() => setModalConfirm(false)}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Thông báo
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>{message}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => setModalConfirm(false)}>Đóng</Button>
           </Modal.Footer>
         </Modal>
       </div>
