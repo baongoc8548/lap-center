@@ -46,6 +46,7 @@ export default function Login() {
         //-clear=> xóa tất cả tên biến và giá trị của nó khỏi storage
         localStorage.setItem('customerName',response.data.userName)
         localStorage.setItem('accessToken',response.data.token)
+        localStorage.setItem('userId',response.data.userId)
        // localStorage.setItem('')
         navigate("/");
       })
