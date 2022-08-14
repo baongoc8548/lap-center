@@ -1,12 +1,14 @@
 import React from "react";
 import "./styles.scss";
-import { Link } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 
 export default function Navbar() {
   const accessToken = localStorage.getItem("accessToken");
+  const navigate= useNavigate()
   const handleLogout = () => {
     localStorage.clear();
+    navigate('/')
   };
 
   return (
@@ -21,18 +23,18 @@ export default function Navbar() {
           </li>
 
           <li>
-            <Link to="about">GIỚI THIỆU</Link>
+            <Link to="/about">GIỚI THIỆU</Link>
           </li>
           <li>LIÊN HỆ</li>
           {accessToken ? (
             <li>
-              <Link to="login" onClick={handleLogout}>
+              <a onClick={handleLogout}>
                 ĐĂNG XUẤT
-              </Link>
+              </a>
             </li>
           ) : (
             <li>
-              <Link to="login">ĐĂNG NHẬP</Link>
+              <Link to="/login">ĐĂNG NHẬP</Link>
             </li>
           )}
         </ul>

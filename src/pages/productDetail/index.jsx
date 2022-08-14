@@ -8,7 +8,7 @@ import axios from "axios";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import SameCard from "../../components/sameCard";
-
+import Modal from "react-bootstrap/Modal";
 export default function ProductDetail() {
   const responsive = {
     superLargeDesktop: {
@@ -30,15 +30,19 @@ export default function ProductDetail() {
     },
   };
   const { state } = useLocation();
-  console.log("product Id: ", state.id);
-  console.log("product Brand: ", state.brand);
+  // console.log("product Id: ", state.id);
+  // console.log("product Brand: ", state.brand);
   const [productsBrand, setProductsBrand] = useState();
   const [product, setProduct] = useState();
   const [image, setImage] = useState();
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-
+  const isLogin = localStorage.getItem("customerName");
+  const [message, setMessage] = useState();
+  const userId = localStorage.getItem('userId');
+  const [modalShow, setModalShow] = useState(false);
+  const [modalConfirm, setModalConfirm] = useState(false);
   const getProductId = () => {
     setLoading(true);
     axios
@@ -94,7 +98,31 @@ export default function ProductDetail() {
         // always executed
       });
   };
-
+  const handleAddToCart = () => {
+    setLoading(true);
+    axios
+      .post("https://lap-center-v1.herokuapp.com/api/cart/addProductToCart", {
+        userId: userId,
+        productId: state.id,
+        productName: product.name,
+        productBrand: product.brand,
+        image:image,
+        price: product.price,
+      })
+      .then((res) => {
+        // alert("Tạo đơn hàng thành công!!");
+        setModalConfirm(true);
+        console.log("success")
+        setMessage("Thêm sản phẩm vào giỏ hàng thành công!");
+        setLoading(false);
+      })
+      .catch((err) => {
+        setModalConfirm(true);
+        setMessage("Thêm sản phẩm vào giỏ hàng thất bại!");
+        setLoading(false);
+      });
+    setModalShow(false);
+  };
   return (
     <>
       <Navbar />
@@ -139,6 +167,15 @@ export default function ProductDetail() {
                   >
                     Mua ngay
                   </Button>
+                  <br />
+                  {isLogin && (
+                    <Button
+                      className="bg-success"
+                      onClick={handleAddToCart}
+                    >
+                      Thêm vào giỏ hàng
+                    </Button>
+                  )}
                   <br />
                   <span>
                     GỌI NGAY{" "}
@@ -213,6 +250,25 @@ export default function ProductDetail() {
             <Spinner animation="border" variant="danger" />
           </div>
         )}
+        <Modal
+          show={modalConfirm}
+          onHide={() => setModalConfirm(false)}
+          size="md"
+          aria-labelledby="contained-modal-title-vcenter"
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-vcenter">
+              Thông báo
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>{message}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => setModalConfirm(false)}>Đóng</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
       {loading && <div style={{ marginTop: "370px" }} />}
       <Footer />
