@@ -7,7 +7,7 @@ import { Form, Button, Spinner } from "react-bootstrap";
 import "./styles.scss";
 import axios from "axios";
 import Footer from "../../components/footer";
-
+import MyCartIcon from "../MyCart";
 export default function Home() {
   const [list, setList] = useState([]);
   const [search, setSearch] = useState("");
@@ -215,7 +215,8 @@ export default function Home() {
   return (
     <div className="homeContainer">
       <Navbar />
-
+      {customerName && <MyCartIcon />}
+      
       <div className="content">
         <div className="menu_top mx-10">
           <div className="d-flex mt-4">

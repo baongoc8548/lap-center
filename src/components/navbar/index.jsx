@@ -9,6 +9,7 @@ export default function Navbar() {
   const handleLogout = () => {
     localStorage.clear();
     navigate('/')
+    window.location.reload()
   };
 
   return (
@@ -28,9 +29,9 @@ export default function Navbar() {
           <li>LIÊN HỆ</li>
           {accessToken ? (
             <li>
-              <a onClick={handleLogout}>
+              <Link to="/" onClick={handleLogout}>
                 ĐĂNG XUẤT
-              </a>
+              </Link>
             </li>
           ) : (
             <li>

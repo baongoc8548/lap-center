@@ -13,9 +13,11 @@ import Register from "./pages/register";
 import ProductDetail from "./pages/productDetail";
 import Buy from "./pages/buy";
 import MyCarts from "./pages/cart";
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
