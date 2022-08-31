@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#root{
+  position: relative;
+}
+.myCart{
+  position: fixed;
+  top: 300px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+border-radius: 50%;
+
+}
+.myCart:hover{
+  transform: scale(1.5);
+  cursor: pointer;
+  transition: 700ms;
+}
