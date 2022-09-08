@@ -5,6 +5,7 @@ import iconCart from "../../assets/imgs/buy1.png";
 import iconDelete from "../../assets/imgs/delete1.png";
 import axios from "axios";
 import Spinner from "react-bootstrap/esm/Spinner";
+import { useNavigate } from "react-router-dom";
 
 // const fakeData = [
 //   {
@@ -37,6 +38,7 @@ const MyCarts = () => {
   const userId = localStorage.getItem("userId");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const handleDelete = (cardId) => {
     console.log("CARD ID:",cardId)
     setLoading(true);
@@ -60,7 +62,7 @@ const MyCarts = () => {
       .get(`https://lap-center.herokuapp.com/api/cart/${userId}`)
       .then(function (response) {
         const data = response.data.products;
-        setData(data);
+        setData(data.reverse());
         setLoading(false);
         console.log("success");
       })
@@ -104,10 +106,14 @@ const MyCarts = () => {
               <img className="tbb-img" src={item.image} alt="" />
               <p className="tbh-name mt-2">{item.productName}</p>
               <p className="tbh-brand mt-2">{item.productBrand}</p>
-              <p className="tbh-price mt-2 text-danger">{item.price}</p>
+              <p className="tbh-price mt-2 text-danger">{item.price}VNĐ</p>
               <p className="tbh-action d-flex">
                 <div className="d-flex bg-icon">
-                  <img className="icon1" src={iconCart} alt="" />
+                  <img className="icon1" src={iconCart} alt="" onClick={() => {
+                      navigate(`/buy/${item.productId}`, {
+                        state: { id: item.productId },
+                      });
+                    }} />
                   <img className="icon m-lg-2" src={iconDelete} alt="" onClick={()=>handleDelete(item._id)} />
                 </div>
               </p>
