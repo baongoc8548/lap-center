@@ -9,6 +9,8 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import SameCard from "../../components/sameCard";
 import Modal from "react-bootstrap/Modal";
+import MyCarts from "../cart";
+import MyCartIcon from "../MyCart";
 export default function ProductDetail() {
   const responsive = {
     superLargeDesktop: {
@@ -43,6 +45,7 @@ export default function ProductDetail() {
   const userId = localStorage.getItem('userId');
   const [modalShow, setModalShow] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
+  const customerName = localStorage.getItem("customerName");
   const getProductId = () => {
     setLoading(true);
     axios
@@ -126,6 +129,7 @@ export default function ProductDetail() {
   return (
     <>
       <Navbar />
+      {customerName && <MyCartIcon />}
       <div className="productDetailContainer">
         {loading === false ? (
           <div>

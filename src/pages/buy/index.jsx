@@ -20,7 +20,7 @@ const Buy = () => {
   const [loading, setLoading] = useState(true);
   const [modalConfirm, setModalConfirm] = useState(false);
   const [message, setMessage] = useState();
-
+  const userId = localStorage.getItem("userId");
   const { state } = useLocation();
   const getProductId = () => {
     setLoading(true);
@@ -110,6 +110,21 @@ const Buy = () => {
         setModalConfirm(true);
         setMessage("Tạo đơn hàng thành công!!!");
         setLoading(false);
+        axios
+          .post("https://lap-center.herokuapp.com/api/history/addProductToHistory", {
+            userId: userId,
+            phone: phone,
+            address: address,
+            productName: product.name,
+            productBrand: product.brand,
+            quantity: quantity,
+          })
+.then(function (response) {
+            console.log('Đã thêm sản phẩm vào lịch sử mua hàng.', response);
+          })
+          .catch(function (error) {
+            console.log('Không thể thêm sản phẩm vào lịch sử mua hàng.', error);
+          });
       })
       .catch((err) => {
         setModalConfirm(true);
