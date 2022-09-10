@@ -7,32 +7,6 @@ import axios from "axios";
 import Spinner from "react-bootstrap/esm/Spinner";
 import { useNavigate } from "react-router-dom";
 
-// const fakeData = [
-//   {
-//     _id: "6257c89d462518002330074f",
-//     userId: "617d08a5ad12171f2c494d8c",
-//     productId: "60c07aaea1364c3894ac0b51",
-//     productName: "LAPTOP ACER NITRO 5 AN515-45-R0B6",
-//     productBrand: "ACER",
-//     image: "https://philong.com.vn/media/product/24366-5.jpg",
-//     price: 32990000,
-//     createdAt: "2022-04-14T07:09:17.158Z",
-//     updatedAt: "2022-04-14T07:09:17.158Z",
-//     __v: 0,
-//   },
-//   {
-//     _id: "6298ba34505b90002306d2e3",
-//     userId: "617d08a5ad12171f2c494d8c",
-//     productId: "60c07aaea1364c3894ac0b51",
-//     productName: "LAPTOP ACER NITRO 5 AN515-45-R0B6",
-//     productBrand: "ACER",
-//     image: "https://philong.com.vn/media/product/24366-5.jpg",
-//     price: 32990000,
-//     createdAt: "2022-06-02T13:25:08.172Z",
-//     updatedAt: "2022-06-02T13:25:08.172Z",
-//     __v: 0,
-//   },
-// ];
 const MyCarts = () => {
   const user = localStorage.getItem("customerName");
   const userId = localStorage.getItem("userId");
