@@ -332,11 +332,11 @@ const Buy = () => {
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
-          <Modal.Header closeButton>
+          <Modal.Header.Header closeButton>
             <Modal.Title id="contained-modal-title-vcenter">
               Thông báo
             </Modal.Title>
-          </Modal.Header>
+          </Modal.Header.Header>
           <Modal.Body>
             <p>{message}</p>
           </Modal.Body>
